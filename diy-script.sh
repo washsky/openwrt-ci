@@ -50,7 +50,7 @@ git clone --depth=1 -b main https://github.com/morytyann/OpenWrt-mihomo package/
 
 # Themes
 git clone --depth=1 -b master https://github.com/derisamedia/luci-theme-alpha package/luci-theme-alpha
-git clone --depth=1 -b master https://github.com/gngpp/luci-theme-design  package/luci-theme-design
+git clone --depth=1 -b master https://github.com/SAENE/luci-theme-design  package/luci-theme-design
 git clone --depth=1 -b master https://github.com/kiddin9/luci-theme-edge package/luci-theme-edge
 git clone --depth=1 -b master https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
