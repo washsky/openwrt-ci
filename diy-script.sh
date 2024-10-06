@@ -48,7 +48,6 @@ git clone --depth=1 -b main https://github.com/morytyann/OpenWrt-mihomo package/
 #git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwall2
 #git_sparse_clone master https://github.com/vernesong/OpenClash luci-app-openclash
 
-git clone --depth=1 -b main https://github.com/linkease/istore luci-app-store
 # Themes
 git clone --depth=1 -b master https://github.com/derisamedia/luci-theme-alpha package/luci-theme-alpha
 git clone --depth=1 -b js https://github.com/SAENE/luci-theme-design  package/luci-theme-design
@@ -87,7 +86,7 @@ git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config package/l
 
 # iStore
 #git_sparse_clone main https://github.com/linkease/istore-ui app-store-ui
-#git_sparse_clone main https://github.com/linkease/istore luci-app-istore
+git_sparse_clone main https://github.com/linkease/istore luci-app-store
 
 # 在线用户
 git_sparse_clone main https://github.com/haiibo/packages luci-app-onliner
