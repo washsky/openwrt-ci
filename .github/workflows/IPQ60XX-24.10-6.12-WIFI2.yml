@@ -4,10 +4,13 @@ on:
   workflow_dispatch:
   schedule:
     - cron: 0 19 * * *
+  push:
+    branches:
+      - washsky-patch-1  # 修改为监听开发分支
 
 env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
-  REPO_BRANCH: 24.10-6.12
+  REPO_BRANCH: develop  # 修改为开发分支
   CONFIG_FILE: configs/ipq60xx-6.12-wifi2.config
   DIY_SCRIPT: diy-script.sh
   CLASH_KERNEL: amd64
@@ -58,7 +61,9 @@ jobs:
         root-reserve-mb: 1024
 
     - name: Checkout
-      uses: actions/checkout@main
+      uses: actions/checkout@v2
+      with:
+        ref: develop  # 修改为开发分支
 
     - name: Clone Source Code(克隆源代码)
       run: |
@@ -124,7 +129,7 @@ jobs:
 
     - name: Upload Bin Directory(上传固件)
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
-      uses: actions/upload-artifact@washsky-patch-1
+      uses: actions/upload-artifact@v2
       with:
         name: ${{ env.SOURCE_REPO }}-bin-${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}-${{ env.FILE_DATE }}
         path: ${{ env.OPENWRT_PATH }}/bin
@@ -142,7 +147,7 @@ jobs:
 
     - name: Upload Firmware To Artifact(将固件上传到Artifact)
       if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE != 'true'
-      uses: actions/upload-artifact@washsky-patch-1
+      uses: actions/upload-artifact@v2
       with:
         name: ${{ env.SOURCE_REPO }}-firmware-${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}-${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE_PATH }}
