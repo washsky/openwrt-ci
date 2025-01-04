@@ -89,6 +89,9 @@ jobs:
         ls -l $GITHUB_WORKSPACE
         ls -l $OPENWRT_PATH/..
         ls -l $OPENWRT_PATH
+        ls -l $OPENWRT_PATH/feeds
+        ls -l $OPENWRT_PATH/package
+        ls -l $OPENWRT_PATH/scripts
         ls -l $GITHUB_WORKSPACE/Scripts2
     
     - name: Custom Packages(添加额外自定义软件包)
