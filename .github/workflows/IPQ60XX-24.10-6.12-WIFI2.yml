@@ -90,6 +90,15 @@ jobs:
         ls -l $OPENWRT_PATH/..
         ls -l $OPENWRT_PATH
     
+    - name: Custom Packages(添加额外自定义软件包)
+      run: |
+        cd $OPENWRT_PATH/package
+    
+        # 修改路径为直接从 $GITHUB_WORKSPACE 访问 Scripts2
+        chmod +x $GITHUB_WORKSPACE/Scripts2/Packages.sh
+    
+        # 执行脚本
+        bash $GITHUB_WORKSPACE/Scripts2/Packages.sh
 
 
     - name: Cache Toolchain(缓存工具链)
