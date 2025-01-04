@@ -82,27 +82,6 @@ jobs:
         echo "DEVICE_SUBTARGET=$DEVICE_SUBTARGET" >> $GITHUB_ENV
 
 
-    - name: Debug path (调试路径)
-      run: |
-        echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-        echo "Checking for script: $GITHUB_WORKSPACE/Scripts2/Packages.sh"
-        ls -l $GITHUB_WORKSPACE
-        ls -l $OPENWRT_PATH/..
-        ls -l $OPENWRT_PATH
-        ls -l $OPENWRT_PATH/feeds
-        ls -l $OPENWRT_PATH/package
-        ls -l $OPENWRT_PATH/scripts
-        ls -l $GITHUB_WORKSPACE
-    
-    - name: Custom Packages(添加额外自定义软件包)
-      run: |
-        cd $OPENWRT_PATH/package
-    
-        # 修改路径为直接从 $GITHUB_WORKSPACE 访问 Scripts2
-        chmod +x $GITHUB_WORKSPACE/Packages.sh
-    
-        # 执行脚本
-        bash $GITHUB_WORKSPACE/Packages.sh
 
 
     - name: Cache Toolchain(缓存工具链)
