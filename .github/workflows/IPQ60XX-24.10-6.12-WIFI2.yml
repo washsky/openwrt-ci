@@ -86,6 +86,7 @@ jobs:
       run: |
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
         echo "Checking for script: $GITHUB_WORKSPACE/Scripts2/Packages.sh"
+        ls -l $GITHUB_WORKSPACE
         ls -l $GITHUB_WORKSPACE/Scripts2/
     
 
