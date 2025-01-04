@@ -95,12 +95,15 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
-    - name: Custom Packages
+    - name: Custom Packages(添加额外自定义软件包)
       run: |
-          cd $OPENWRT_PATH/package
-
-          $GITHUB_WORKSPACE/Scripts2/Packages.sh
-         
+        cd $OPENWRT_PATH/package
+    
+        # 确保脚本文件可执行
+        chmod +x $GITHUB_WORKSPACE/Scripts2/Packages.sh
+    
+        # 执行脚本
+        bash $GITHUB_WORKSPACE/Scripts2/Packages.sh
 
 
   
