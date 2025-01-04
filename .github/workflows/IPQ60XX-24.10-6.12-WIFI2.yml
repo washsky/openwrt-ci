@@ -94,6 +94,15 @@ jobs:
         cd $OPENWRT_PATH
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+
+    - name: Custom Packages
+      run: |
+          cd $OPENWRT_PATH/package
+
+          $GITHUB_WORKSPACE/Scripts2/Packages.sh
+         
+
+
   
     - name: Load Custom Configuration(加载自定义配置)
       run: |
