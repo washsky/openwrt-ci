@@ -87,7 +87,8 @@ jobs:
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
         echo "Checking for script: $GITHUB_WORKSPACE/Scripts2/Packages.sh"
         ls -l $GITHUB_WORKSPACE
-        ls -l $GITHUB_WORKSPACE/Scripts2/
+        ls -l $OPENWRT_PATH/..
+        ls -l $OPENWRT_PATH
     
 
 
@@ -110,10 +111,10 @@ jobs:
         cd ../$OPENWRT_PATH
         ls -l $GITHUB_WORKSPACE
         # 确保脚本文件可执行
-        chmod +x $GITHUB_WORKSPACE/Scripts2/Packages.sh
+        chmod +x $OPENWRT_PATH/../Scripts2/Packages.sh
     
         # 执行脚本
-        bash $GITHUB_WORKSPACE/Scripts2/Packages.sh
+        bash $OPENWRT_PATH/../Scripts2/Packages.sh
 
 
   
