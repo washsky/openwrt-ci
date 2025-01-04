@@ -108,7 +108,7 @@ jobs:
 
     - name: Custom Packages(添加额外自定义软件包)
       run: |
-        cd ..$OPENWRT_PATH
+        cd $OPENWRT_PATH..
         ls -l $GITHUB_WORKSPACE
         # 确保脚本文件可执行
         chmod +x $OPENWRT_PATH/../Scripts2/Packages.sh
