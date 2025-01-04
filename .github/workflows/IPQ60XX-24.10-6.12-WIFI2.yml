@@ -92,17 +92,17 @@ jobs:
         ls -l $OPENWRT_PATH/feeds
         ls -l $OPENWRT_PATH/package
         ls -l $OPENWRT_PATH/scripts
-        ls -l $GITHUB_WORKSPACE/Scripts2
+        ls -l $GITHUB_WORKSPACE
     
     - name: Custom Packages(添加额外自定义软件包)
       run: |
         cd $OPENWRT_PATH/package
     
         # 修改路径为直接从 $GITHUB_WORKSPACE 访问 Scripts2
-        chmod +x $GITHUB_WORKSPACE/Scripts2/Packages.sh
+        chmod +x $GITHUB_WORKSPACE/Packages.sh
     
         # 执行脚本
-        bash $GITHUB_WORKSPACE/Scripts2/Packages.sh
+        bash $GITHUB_WORKSPACE/Packages.sh
 
 
     - name: Cache Toolchain(缓存工具链)
@@ -118,18 +118,6 @@ jobs:
         cd $OPENWRT_PATH
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-
-    - name: Custom Packages(添加额外自定义软件包)
-      run: |
-        cd $OPENWRT_PATH/..
-        ls -l $OPENWRT_PATH/..
-        ls -l $GITHUB_WORKSPACE
-        ls -l $OPENWRT_PATH/../Scripts2
-        # 确保脚本文件可执行
-        chmod +x $OPENWRT_PATH/../Scripts2/Packages.sh
-    
-        # 执行脚本
-        bash $OPENWRT_PATH/../Scripts2/Packages.sh
 
 
   
