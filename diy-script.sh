@@ -82,8 +82,8 @@ git_sparse_clone main https://github.com/linkease/nas-packages-luci luci/luci-ap
 git_sparse_clone master https://github.com/linkease/nas-packages network/services/ddnsto
 
 # iStore
-git_sparse_clone main https://github.com/linkease/istore-ui app-store-ui
-git_sparse_clone main https://github.com/linkease/istore luci
+#git_sparse_clone main https://github.com/linkease/istore-ui app-store-ui
+#git_sparse_clone main https://github.com/linkease/istore luci
 
 # 在线用户
 git_sparse_clone main https://github.com/haiibo/packages luci-app-onliner
@@ -121,6 +121,102 @@ find package/luci-theme-*/* -type f -name '*luci-theme-*' -print -exec sed -i '/
 # sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-v2ray-server/luasrc/controller/*.lua
 # sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-v2ray-server/luasrc/model/cbi/v2ray_server/*.lua
 # sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-v2ray-server/luasrc/view/v2ray_server/*.htm
+
+
+
+
+
+
+
+
+# 显示当前工作目录
+echo "Current working directory: $(pwd)"
+
+# 硬编码 OpenWRT 根目录路径
+OPENWRT_ROOT="/home/runner/work/openwrt-ci/openwrt-ci/openwrt"
+
+# 确认 OpenWRT 根目录路径是否存在
+if [ ! -d "$OPENWRT_ROOT" ]; then
+    echo "Error: Unable to locate OpenWRT root directory at $OPENWRT_ROOT!"
+    exit 1
+fi
+
+echo "Detected OpenWRT root directory: $OPENWRT_ROOT"
+
+# 确认 feeds.conf.default 是否存在
+if [ ! -f "$OPENWRT_ROOT/feeds.conf.default" ]; then
+    echo "Error: Unable to locate feeds.conf.default at $OPENWRT_ROOT/feeds.conf.default!"
+    exit 1
+fi
+
+# 定义下载文件的 URL 和目标路径
+FILE_URL="https://github.com/linkease/istore-ui/archive/refs/tags/v0.1.27-2.tar.gz"
+TARGET_DIR="$OPENWRT_ROOT/dl"
+TARGET_FILE="$TARGET_DIR/istore-ui-v0.1.27-2.tar.gz"
+
+# 确保下载目录存在
+if [ ! -d "$TARGET_DIR" ]; then
+    echo "Directory $TARGET_DIR does not exist. Creating..."
+    mkdir -p "$TARGET_DIR"
+fi
+
+# 添加新的 feeds 并更新安装 istore 相关软件包
+echo "Adding istore feed to feeds.conf.default..."
+echo >> "$OPENWRT_ROOT/feeds.conf.default"
+echo 'src-git istore https://github.com/washsky/istore;washsky-patch-1' >> "$OPENWRT_ROOT/feeds.conf.default"
+
+# 更新 istore feed
+echo "Updating istore feed..."
+"$OPENWRT_ROOT/scripts/feeds" update istore || { echo "Failed to update istore feed."; exit 1; }
+
+# 手动下载文件控制
+if [ ! -f "$TARGET_FILE" ]; then
+    echo "File $TARGET_FILE not found. Attempting to download manually..."
+
+    # 尝试通过 wget 下载文件，并增加 -v 选项显示调试信息
+    wget -v --connect-timeout=20 --tries=5 --timeout=20 --retry-connrefused --no-check-certificate "$FILE_URL" -O "$TARGET_FILE"
+
+    if [ $? -ne 0 ]; then
+        echo "Download failed from primary URL: $FILE_URL. Attempting to use a fallback URL..."
+
+        # 尝试使用备用 URL 下载
+        FALLBACK_URL="https://mirror2.immortalwrt.org/sources/istore-ui-v0.1.27-2.tar.gz"
+        wget -v --connect-timeout=20 --tries=5 --timeout=20 --retry-connrefused --no-check-certificate "$FALLBACK_URL" -O "$TARGET_FILE"
+
+        if [ $? -ne 0 ]; then
+            echo "Download from fallback URL also failed. Exiting."
+            exit 1
+        else
+            echo "File downloaded successfully from fallback URL."
+        fi
+    else
+        echo "File downloaded successfully from primary URL."
+    fi
+else
+    echo "File already exists at $TARGET_FILE."
+fi
+
+# 安装 luci-app-store 包
+echo "Installing luci-app-store package from istore feed..."
+"$OPENWRT_ROOT/scripts/feeds" install -d y -p istore luci-app-store || { echo "Failed to install luci-app-store."; exit 1; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
